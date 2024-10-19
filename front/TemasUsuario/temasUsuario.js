@@ -36,7 +36,7 @@ async function obtenerUsuario(){
 
 //Funcion para obtener listado del backend
 async function obtenerListado(){
-    //Obtencion del listado de tareas mediante promesa
+    //Obtencion del listado de temas mediante promesa
     const promesaResponse = await fetch(`/back/usuarios/${usuarioActualId}/temas`, {
         method: 'GET',
         headers: {
@@ -50,7 +50,7 @@ async function obtenerListado(){
 }
 
 function mostrarListado(listado) {
-    // Obtener el cuerpo de la tabla de tareas
+    // Obtener el cuerpo de la tabla de temas
     const cuerpoTablaTemas = document.querySelector("#listaTemas tbody");
     // Limpiar el contenido
     cuerpoTablaTemas.innerHTML = ''; 
@@ -64,23 +64,25 @@ function mostrarListado(listado) {
             <td>${tema.id_tema}</td>
             <td>${tema.titulo}</td>
             <td>${tema.descripcion}</td>
+            <td><button class="boton-ingresar" data-id="${tema.id_tema}">Ingresar comentario</button></td>
             <td><button class="boton-ver" data-id="${tema.id_tema}">Ver comentarios</button></td>
-
         `;
         cuerpoTablaTemas.appendChild(row);
 
-        //Obtener boton ver comentarios
+        //Obtener botones
+        const botonIngresar = row.querySelector('.boton-ingresar');
         const botonVer = row.querySelector('.boton-ver');
 
         // Eventos para boton
-        /*botonVer.addEventListener('click', function() {
-            const idPersona = Number(this.getAttribute('data-id'));
-            if (idPersona !== usuarioActualId) {
-                alert('No puedes eliminar a otro usuario.');  // Mostrar alerta de error
-            } else {
-                window.location.href = `../IngresarComentario/ingresarComentario.html?id=${idPersona}`;
-            }
-        });*/
+        botonVer.addEventListener('click', function() {
+            const idTema = Number(this.getAttribute('data-id'));
+            window.location.href = `../ComentariosTema/comentariosTema.html?id=${idTema}`;
+        });
+
+        botonIngresar.addEventListener('click', function() {
+            const idTema = Number(this.getAttribute('data-id'));
+            window.location.href = `../IngresarComentario/ingresarComentario.html?id=${idTema}`;
+        });
        
     });
 }

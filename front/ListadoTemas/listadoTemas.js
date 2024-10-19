@@ -36,7 +36,7 @@ async function obtenerUsuario(){
 
 //Funcion para obtener listado del backend
 async function obtenerListado(){
-    //Obtencion del listado de tareas mediante promesa
+    //Obtencion del listado de temas mediante promesa
     const promesaResponse = await fetch(`/back/temas`, {
         method: 'GET',
         headers: {
@@ -50,7 +50,7 @@ async function obtenerListado(){
 }
 
 function mostrarListado(listado) {
-    // Obtener el cuerpo de la tabla de tareas
+    // Obtener el cuerpo de la tabla de temas
     const cuerpoTablaTemas = document.querySelector("#listaTemas tbody");
     // Limpiar el contenido
     cuerpoTablaTemas.innerHTML = ''; 
@@ -73,14 +73,10 @@ function mostrarListado(listado) {
         const botonVer = row.querySelector('.boton-ver');
 
         // Eventos para boton
-        /*botonVer.addEventListener('click', function() {
-            const idPersona = Number(this.getAttribute('data-id'));
-            if (idPersona !== usuarioActualId) {
-                alert('No puedes eliminar a otro usuario.');  // Mostrar alerta de error
-            } else {
-                window.location.href = `../IngresarComentario/ingresarComentario.html?id=${idPersona}`;
-            }
-        });*/
+        botonVer.addEventListener('click', function() {
+            const idTema = Number(this.getAttribute('data-id'));
+            window.location.href = `../ComentariosTema/comentariosTema.html?id=${idTema}`;
+        });
        
     });
 }

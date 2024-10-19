@@ -8,30 +8,24 @@ const comentariosRoute: FastifyPluginAsync = async (
     opts: FastifyPluginOptions
   ): Promise<void> => {
     //---------------------------------------------OBTENER COMENTARIOS por ID de tarea---------------------------------------------------------------
-    fastify.get('/:id',{
+    fastify.get('/:id_tema',{
         onRequest: [fastify.verifyJWT], 
         schema: {
           tags: ['comentario'],
           params: {
             type: "object",
             properties: {
-              id: { type: "number" },
+              id_tema: { type: "number" },
             },
-            required: ["id"],
+            required: ["id_tema"],
           },
-          response: {
-            '2xx': {
-              type: 'object',
-              properties: {
-                mensaje: { type: 'string' },
-              },
-            },
-          }
         },
     
         handler: async function (request, reply) {
-            const { id } = request.params as { id: number };
-            return comentarioService.findAll(id);
+            const { id_tema } = request.params as { id_tema: number };
+            console.log(id_tema)
+            const comentarios = comentarioService.findAll(id_tema);
+            return comentarios
         }})
     //------------------------------------------------------------------------------------------------------------------------
 
