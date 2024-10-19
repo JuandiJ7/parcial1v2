@@ -64,12 +64,13 @@ function mostrarListado(listado) {
             <td>${tema.id_tema}</td>
             <td>${tema.titulo}</td>
             <td>${tema.descripcion}</td>
+            <td><button class="boton-ingresar" data-id="${tema.id_tema}">Ingresar comentario</button></td>
             <td><button class="boton-ver" data-id="${tema.id_tema}">Ver comentarios</button></td>
-
         `;
         cuerpoTablaTemas.appendChild(row);
 
-        //Obtener boton ver comentarios
+        //Obtener botones
+        const botonIngresar = row.querySelector('.boton-ingresar');
         const botonVer = row.querySelector('.boton-ver');
 
         // Eventos para boton
@@ -77,6 +78,12 @@ function mostrarListado(listado) {
             const idTema = Number(this.getAttribute('data-id'));
             window.location.href = `../ComentariosTema/comentariosTema.html?id=${idTema}`;
         });
+
+        botonIngresar.addEventListener('click', function() {
+            const idTema = Number(this.getAttribute('data-id'));
+            window.location.href = `../IngresarComentario/ingresarComentario.html?id=${idTema}`;
+        });
+       
        
     });
 }

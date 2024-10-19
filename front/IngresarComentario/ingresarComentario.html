@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="ingresarComentario.js"></script>
+    <link rel="stylesheet" href="../header.css">
+    <link rel="stylesheet" href="../main.css">
     <title>Ingresar comentario</title>
 </head>
 <body>
+    <header>
+        <p id="usuario">uaaasuario</p>
+        <h2>Parcial - Juan Diego Jacques</h2>
+        <div class="botones">
+            <button id="cerrarSesion" class="button" onclick="abrirLogoutDialog()">Cerrar sesion</button>
+        </div>
+        <div id="logoutDialog" class="dialog" style="display:none;">
+            <div class="dialog-content">
+                <p>¿Está seguro que desea cerrar sesión?</p><br>
+                <button onclick="confirmarLogout()">Sí</button>
+                <button onclick="cerrarLogoutDialog()">No</button>
+            </div>
+        </div>
+    </header>
+    <main>
     <form id="registrarUsuario">
         <h2>Ingresar Comentario</h2>
 
@@ -15,8 +32,9 @@
 
         <button type="button"id="confirmar">Confirmar</button>
         
-        <button id="volver" class="button" onclick="window.location.href='../ListadoTareasAdmin/listadoTareasAdmin.html'">Volver al listado</button>
+        <button id="volver" class="button" onclick="window.location.href='../TareasUsuario/tareasUsuario.html'">Volver al listado</button>
         
     </form>
+</main>
 </body>
 </html>
