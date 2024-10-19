@@ -1,0 +1,10 @@
+header {
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    position: relative;
+    z-index: 1002; 
+}

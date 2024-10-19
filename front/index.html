@@ -1,1 +1,28 @@
-Index.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Parcial</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="main.css">
+    <script defer src="index.js"></script>
+</head>
+<body>
+    <header>
+        <h2>Parcial - Juan Diego Jacques</h2>
+    </header>
+    <main>
+        <form id="loginForm">
+            <label for="usuario">Nombre de usuario</label>
+            <input type="text" id="usuario" placeholder="Ingrese su nombre de usuario">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password">
+            <p id="error-message" style="color: red; display: none;"></p> <br>
+            <button class="btn" type="submit">Ingresar</button>
+            <!-- <button class="btn" id="reg" onclick="window.location.href='RegistrarUsuario/registrarUsuario.html'">Registrarse</button> -->
+        </form>
+    </main>
+</body>
+</html>
