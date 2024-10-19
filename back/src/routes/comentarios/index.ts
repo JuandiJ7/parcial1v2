@@ -1,7 +1,7 @@
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import * as comentarioService from "../../services/comentarios.js";
 import { FastifyInstance } from "fastify/types/instance.js";
-import { Comentario, ComentarioSchema } from "../../types/comentario.js";
+import { ComentarioSchema, NuevoComentario, NuevoComentarioSchema } from "../../types/comentario.js";
 
 const comentariosRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
@@ -30,67 +30,92 @@ const comentariosRoute: FastifyPluginAsync = async (
         },
     
         handler: async function (request, reply) {
-            const { id_tema } = request.params as { id_tema: number };
-            return comentarioService.findAll(id_tema);
+            const { id } = request.params as { id: number };
+            return comentarioService.findAll(id);
         }})
     //------------------------------------------------------------------------------------------------------------------------
 
-    //---------------------------------------------CREAR-----------------------------------------------------------------
-    fastify.post('/',{
+    //---------------------------------------------CREAR COMENTARIO-----------------------------------------------------------------
+    fastify.post('/:id_tema',{
       onRequest: [fastify.verifyJWT], 
       schema: {
         tags: ['comentario'],
-        body: ComentarioSchema,
+        params: {
+            type: "object",
+            properties: {
+              id_tema: { type: "number" },
+            },
+            required: ["id_tema"],
+          },
+        body: NuevoComentarioSchema,
         summary: "Crear comentario",
         response: {
-          '2xx': {
-            type: 'object',
-            properties: {
-              mensaje: { type: 'string' },
-            },
-          },
+            201: {
+                description: "Comentario creado.",
+                content: {
+                  "application/json": {
+                    schema: ComentarioSchema,
+                  },
+                },
+              },
         }
       },
-  
       handler: async function (request, reply) {
-        const nuevoComentario = request.body as Comentario;
-        const creacion = comentarioService.create(nuevoComentario.id_tema, nuevoComentario.id_usuario, nuevoComentario.descripcion)
-        if((await creacion).length > 0){
-            reply.code(201);
-            return creacion;
-        } else {
-            console.error('Error al crear comentario');
-            reply.status(500).send({ error: 'Error al crear comentario.' });
-        }
-
+        const nuevoComentario = request.body as NuevoComentario;
+        const userId = (request.user as any).id_usuario;
+        const { id_tema } = request.params as { id_tema: number };
+        return comentarioService.create(id_tema, userId, nuevoComentario.descripcion)
       }});
     //-----------------------------------------------------------------------------------------------------------------------
 
-    //--------------------------------------------EDITAR----------------------------------------------------------------
-    fastify.put('/:id',{
+    //--------------------------------------------EDITAR COMENTARIO----------------------------------------------------------------
+    fastify.put('/:id/:id_comentario',{
       onRequest: [fastify.verifyJWT], 
       schema: {
-        tags: ['ejemplo'],
-        response: {
-          '2xx': {
-            type: 'object',
+        tags: ['comentario'],
+        summary: "Actualizar comentario.",
+        params: {
+            type: "object",
             properties: {
-              mensaje: { type: 'string' },
+              id: { type: "number" },
+              id_comentario: {type : "number"}
+            },
+            required: ["id", "id_comentario"],
+        },
+        body: NuevoComentarioSchema,
+        response: {
+            200: {
+              description: "Comentario actualizado.",
+              content: {
+                "application/json": {
+                  schema: ComentarioSchema,
+                },
+              },
             },
           },
-        }
       },
   
       handler: async function (request, reply) {
-        reply.send({ mensaje: `Ruta no implementada` });
+        const comentario = request.body as NuevoComentario;
+        const { id, id_comentario } = request.params as { id: number, id_comentario: number };
+
+        return comentarioService.modify(id, id_comentario, comentario.descripcion);
       }})
     //------------------------------------------------------------------------------------------------------------------------    
 
     //--------------------------------------------ELIMINAR---------------------------------------------------------------
-    fastify.delete('/:id',{
+    fastify.delete('/:id/:id_comentario',{
       onRequest: [fastify.verifyJWT], 
       schema: {
-        tags: ['ejemplo'],
+        tags: ['comentario'],
+        params: {
+            type: "object",
+            properties: {
+              id: { type: "number" },
+              id_comentario: {type : "number"}
+            },
+            required: ["id", "id_comentario"],
+        },
         response: {
           '2xx': {
             type: 'object',
@@ -102,7 +127,12 @@ const comentariosRoute: FastifyPluginAsync = async (
       },
   
       handler: async function (request, reply) {
-        reply.send({ mensaje: `Ruta no implementada` });
+        const { id, id_comentario } = request.params as { id: number, id_comentario: number };
+        const borrado = comentarioService.erase(id, id_comentario)
+        if(!borrado){
+            return reply.code(204);
+        }
+        return "No ha podido ser borrado" + reply.code(404)
       }})
     //-----------------------------------------------------------------------------------------------------------------------
 
