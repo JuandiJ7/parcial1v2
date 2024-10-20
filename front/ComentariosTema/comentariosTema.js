@@ -41,34 +41,23 @@ async function cargarComentarios() {
             'Content-Type': 'application/json'   // Asegurarse de que el contenido sea JSON
         }
     });
+    const comentarios = await promesaResponse.json();
+    const listaComentarios = JSON.stringify(comentarios);
     // Obtener el cuerpo de la tabla de tareas
     const cuerpoTablaTemas = document.querySelector("#listaComentario tbody");
     // Limpiar el contenido
     cuerpoTablaTemas.innerHTML = ''; 
     // De string a array
-    const arregloTareas = JSON.parse(datostarea);
-    const row = document.createElement('tr');
-    row.innerHTML = `
-            <td>${arregloTareas.id_tarea}</td>
-            <td>${arregloTareas.nombre}</td>
-            <td>${arregloTareas.duracion}</td>
-            <td>${arregloTareas.id_usuario}</td>
-            <td>${arregloTareas.creador}</td>
-            <td>${arregloTareas.usuarios}</td>
+    const arregloComentarios = JSON.parse(listaComentarios);
+    arregloComentarios.forEach(comentario => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${comentario.id_comentario}</td>
+            <td>${comentario.fecha_ingresado}</td>
+            <td>${comentario.descripcion}</td>
         `;
-        cuerpoTablaTareas.appendChild(row);    
+        cuerpoTablaTemas.appendChild(row); })
 }
 
-document.getElementById("editarTarea").addEventListener('click', function() {
-    window.location.href = `../EditarTarea/editarTarea.html?idTarea=${idTarea}&idUsuario=${idUsuario}`;
-});
 
-document.getElementById("eliminarTarea").addEventListener('click', function() {
-    window.location.href = `../EliminarTarea/eliminarTarea.html?idTarea=${idTarea}&idUsuario=${idUsuario}`;
-});
-
-document.getElementById("asignar").addEventListener('click', function() {
-    window.location.href = `../AsignarUsuario/asignarUsuario.html?idTarea=${idTarea}`;
-});
-
-window.onload = obtenerTarea;
+window.onload = obtenerTema;
