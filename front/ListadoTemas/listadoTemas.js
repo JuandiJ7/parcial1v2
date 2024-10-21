@@ -75,8 +75,8 @@ function mostrarListado(listado) {
 
         // Eventos para boton
         botonVer.addEventListener('click', function() {
-            const idTema = Number(this.getAttribute('data-id'));
-            window.location.href = `../ComentariosTema/comentariosTema.html?id=${idTema}`;
+            const idTema = this.getAttribute('data-id');
+            window.location.href = `../ComentariosEnTema/comentariosEnTemas.html?id=${idTema}`;
         });
 
         botonIngresar.addEventListener('click', function() {
